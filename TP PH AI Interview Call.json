@@ -1,12 +1,12 @@
 {
-    "name": "(COPY) PROD - TP PH AI Interview Call (Scheduled or Without Scheduling)",
-    "description": "Active Scheduled or Without Scheduling Call",
+    "name": "(COPY) PROD - TP PH AI Interview Call (Scheduled or Without Scheduling) - v2",
+    "description": "Active Scheduled or Without Scheduling Call. V2 incorporates feedback to improve flow (Location/Distance/Transport sequence), refine prompts for context/transitions, reduce repetition, and enhance naturalness. General Instruction: Avoid making assumptions about the candidate's status (e.g., employment) unless explicitly stated.",
     "nodes": [
         {
             "id": "1",
             "data": {
                 "name": "Start",
-                "prompt": "You are to say \"Hi {{candidate_first_name}}. This is Anna, Teleperformance AI recruiter and I am calling about the {{job_title}} role you applied to recently. Do you have fifteen minutes to talk about your application?\"\n\nIf you encounter an extended period of silence and you have not introduced yourself, do not ask 'are you still there' , and instead continue with the original instructions of \"Hi {{candidate_first_name}}. This is Anna, Teleperformance AI recruiter and I am calling about the {{job_title}} role you applied to recently. Do you have fifteen minutes to talk about your application?\"\n\ndon't choose global path in any condition.",
+                "prompt": "You are to say \"Hi {{candidate_first_name}}. This is Anna, Teleperformance AI recruiter and I am calling about the {{job_title}} role you applied to recently. Do you have fifteen minutes to talk about your application?\"\n\nIf you encounter an extended period of silence *before you have introduced yourself*, do not ask 'are you still there', and instead continue with the original instructions.\n\n*After you ask a question and receive an answer*, proceed to the next logical question based on the pathway. Do not repeat the question unless the user explicitly asks or the answer was unclear. Avoid filler phrases like 'Are you still there?' during short pauses after the candidate has responded.\n\nGeneral Guideline: Do not make assumptions about the candidate's status (e.g., employment) unless they have explicitly stated it in the current conversation.\n\ndon't choose global path in any condition.",
                 "isStart": true,
                 "condition": "The condition is achieved if the user responded.",
                 "modelOptions": {
@@ -127,7 +127,7 @@
             "data": {
                 "tag": null,
                 "name": "Candidate Location Info",
-                "prompt": "Ask the user where they reside or where they reside and acknowledge the job location {job_location}. \n\nYou may have previously asked the user the location where they worked at. This is a separate question, asking the user where they live. Do not get confused.\n\nDialogue Example: \"Ok, thank you. This position is an on-site position and is located at {{job_location}}. Can you share with me where you reside\"\n\n<KNOWLEDGE BASE> City Names: \"Alaminos\", \"Angeles City\", \"Antipolo\", \"Bacolod\", \"Bacoor\", \"Bago\", \"Baguio\", \"Baliwag\", \"Batangas City\", \"Baybay\", \"Binan\", \"Bogo\", \"Borongan\", \"Cabanatuan\", \"Cabuyao\", \"Cadiz\", \"Cagayan de Oro\", \"Calaca\", \"Calamba\", \"Calbayog\", \"Caloocan\", \"Carcar\", \"Carmona\", \"Cavite City\", \"Cebu City\", \"Cotabato City\", \"Dagupan\", \"Danao\", \"Dasmariñas\", \"Davao City\", \"Digos\", \"Dumaguete\", \"El Salvador\", \"Escalante\", \"Gapan\", \"General Trias\", \"Himamaylan\", \"Iligan\", \"Imus\", \"Kabankalan\", \"Kidapawan\", \"La Carlota\", \"Lapu-Lapu City\", \"Las Pinas\", \"Lipa\", \"Maasin\", \"Mabalacat\", \"Makati\", \"Malabon\", \"Malolos\", \"Mandaluyong\", \"Mandaue\", \"Manila\", \"Marikina\", \"Mati\", \"Meycauayan\", \"Munoz\", \"Muntinlupa\", \"Naga\", \"Navotas\", \"Ormoc\", \"Palayan\", \"Panabo\", \"Paranaque\", \"Pasay\", \"Pasig\", \"Quezon City\", \"Sagay\", \"San Carlos\", \"San Carlos\", \"San Fernando\", \"San Jose\", \"San Jose del Monte\", \"San Juan\", \"San Pablo\", \"San Pedro\", \"Santa Rosa\", \"Santo Tomas\", \"Silay\", \"Sipalay\", \"Tacloban\", \"Tagaytay\", \"Taguig\", \"Tagum\", \"Talisay\", \"Talisay\", \"Tanauan\", \"Tarlac City\", \"Toledo\", \"Trece Martires\", \"Urdaneta\", \"Valenzuela\", \"Victorias\", \"Oas\", \"Bangued\", \"Tawi-Tawi\", \"Sulu\", \"Maguindanao\", \"Lanao del Sur\", \"Basilan\", \"Awang\", \"Villaviciosa\", \"Tineg\", \"Tayum\", \"San Juan\", \"San Isidro\", \"Sallapadan\", \"Pilar\", \"Pidigan\", \"Peñarrubia\", \"Manabo\", \"Malibcong\", \"Luba\", \"Licuan-Baay\", \"La Paz\", \"Langiden\", \"Lagayan\", \"Lagangilang\", \"Lacub\", \"Dolores\", \"Danglas\", \"Daguioman\", \"Bucloc\", \"Bucay\", \"Boliney\", \"Bangued\", \"Tubo\", \"San Quintin\", \"Remedios T. Romualdez\", \"Tubay\", \"Santiago\", \"Nasipit\", \"Magallanes\", \"Las Nieves\", \"Kitcharao\", \"Jabonga\", \"Carmen\", \"Cabadbaran\", \"Butuan\", \"Buenavista\", \"Veruela\", \"Trento\", \"Talacogon\", \"Sibagat\", \"Santa Josefa\", \"San Luis\", \"San Francisco\", \"Rosario\", \"Prosperidad\", \"Loreto\", \"La Paz\", \"Esperanza\", \"Bunawan\", \"Bayugan\", \"Tangalan\", \"New Washington\", \"Nabas\", \"Malinao\", \"Malay\", \"Madalag\", \"Makato\", \"Libacao\", \"Lezo\", \"Kalibo\", \"Banga\", \"Ibajay\", \"Buruanga\", \"Numancia\", \"Batan\", \"Balete\", \"Altavas\", \"Tiwi\", \"Tabaco City\", \"Rapu-Rapu\", \"Guinobatan\", \"Polangui\", \"Pio Duran\", \"Oas\", \"Santo Domingo\", \"Manito\", \"Malinao\", \"Malilipot\", \"Libon\", \"Legazpi City\", \"Jovellar\", \"Daraga\", \"Camalig\", \"Bacacay\", \"Ligao City\", \"Laua-an\", \"Valderrama\", \"Tibiao\", \"Sibalom\", \"Sebaste\", \"San Remigio\", \"San Jose de Buenavista\", \"Patnongon\", \"Libertad\", \"Hamtic\", \"Tobias Fornier\", \"Culasi\", \"Caluya\", \"Bugasong\", \"Belison\", \"Barbaza\", \"Anini-y\", \"Pandan\", \"Santa Marcela\", \"Pudtol\", \"Luna\", \"Kabugao\", \"Flora\", \"Conner\", \"Calanasan\", \"Dipaculao\", \"San Luis\", \"Maria Aurora\", \"Dingalan\", \"Dinalungan\", \"Dilasag\", \"Casiguran\", \"Baler\", \"Hadji Mohammad Ajul\", \"Ungkaya Pukan\", \"Hadji Muhtamad\", \"Akbar\", \"Tabuan-Lasa\", \"Al-Barka\", \"Tuburan\", \"Tipo-Tipo\", \"Sumisip\", \"Maluso\", \"Lantawan\", \"Lamitan\", \"Isabela City\", \"Samal\", \"Orion\", \"Orani\", \"Morong\", \"Mariveles\", \"Limay\", \"Hermosa\", \"Dinalupihan\", \"Pilar\", \"Balanga City\", \"Bagac\", \"Abucay\", \"Uyugan\", \"Sabtang\", \"Mahatao\", \"Ivana\", \"Itbayat\", \"Basco\", \"Tuy\", \"Tingloy\", \"Taysan\", \"Tanauan City\", \"Talisay\", \"Taal\", \"Santa Teresita\", \"San Pascual\", \"San Nicolas\", \"San Luis\", \"San Juan\", \"San Jose\", \"Rosario\", \"Padre Garcia\", \"Nasugbu\", \"Mataasnakahoy\", \"Malvar\", \"Mabini\", \"Lobo\", \"Lipa City\", \"Lian\", \"Lemery\", \"Laurel\", \"Ibaan\", \"Cuenca\", \"Calatagan\", \"Calaca\", \"Bauan\", \"Batangas City\", \"Balete\", \"Balayan\", \"Alitagtag\", \"Agoncillo\", \"Santo Tomas City\", \"Tublay\", \"Tuba\", \"Sablan\", \"Mankayan\", \"Kabayan\", \"La Trinidad\", \"Kibungan\", \"Kapangan\", \"Itogon\", \"Buguias\", \"Bokod\", \"Bakun\", \"Baguio City\", \"Atok\", \"Tabaco\", \"Sorsogon\", \"Pili\", \"Pasacao\", \"Naga\", \"Milaor\", \"Masbate\", \"Legazpi\", \"Iriga City\", \"Goa\", \"Daet\", \"Catanduanes\", \"Camarines Sur\", \"Camarines Norte\", \"Anoling Second\", \"Anayan\", \"Alobo\", \"Alin\", \"Albay\", \"Alawihaw\", \"Agrupacion\", \"Naval\", \"Maripipi\", \"Kawayan\", \"Culaba\", \"Caibiran\", \"Cabucgayan\", \"Biliran\", \"Almeria\", \"Valencia\", \"Ubay\", \"Tubigon\", \"Trinidad\", \"Talibon\", \"Tagbilaran City\", \"Sikatuna\", \"Sierra Bullones\", \"Sevilla\", \"San Miguel\", \"San Isidro\", \"Sagbayan\", \"President Carlos P. Garcia\", \"Pilar\", \"Panglao\", \"Maribojoc\", \"Mabini\", \"Loon\", \"Loboc\", \"Loay\", \"Lila\", \"Getafe\", \"Jagna\", \"Inabanga\", \"Guindulman\", \"Garcia Hernandez\", \"Duero\", \"Dimiao\", \"Dauis\", \"Danao\", \"Dagohoy\", \"Cortes\", \"Corella\", \"Clarin\", \"Carmen\", \"Candijay\", \"Calape\", \"Buenavista\", \"Bilar\", \"Bien Unido\", \"Batuan\", \"Balilihan\", \"Baclayon\", \"Antequera\", \"Anda\", \"Alicia\", \"Alburquerque\", \"Catigbian\", \"Valencia\", \"Talakag\", \"Sumilao\", \"Quezon\", \"Pangantucan\", \"Maramag\", \"Manolo Fortich\", \"Malitbog\", \"Malaybalay\", \"Libona\", \"Lantapan\", \"Kitaotao\", \"Kibawe\", \"Kalilangan\", \"Kadingilan\", \"Impasugong\", \"Don Carlos\", \"Dangcagan\", \"Damulog\", \"Cabanglasan\", \"Baungon\", \"San Fernando\", \"Santa Maria\", \"San Rafael\", \"San Miguel\", \"San Jose del Monte City\", \"San Ildefonso\", \"Pulilan\", \"Plaridel\", \"Paombong\", \"Obando\", \"Norzagaray\", \"Meycauayan City\", \"Marilao\", \"Malolos City\", \"Hagonoy\", \"Guiguinto\", \"Doña Remedios Trinidad\", \"Calumpit\", \"Bustos\", \"Bulakan\", \"Bocaue\", \"Baliuag\", \"Balagtas\", \"Angat\", \"Mountain Province\", \"Province of Ifugao\", \"Province of Benguet\", \"Baguio City\", \"Alapang\", \"Province of Abra\", \"Abucay\", \"Butuan\", \"Cabantian\", \"Cabadbaran\", \"Tacurong\", \"Marilog District\", \"Malaybalay City\", \"Cabadbaran City\", \"Calapan\", \"Catarman\", \"Kidapawan City\", \"Bayugan\", \"Butuan City\", \"Cabadbaran City\", \"Bais City\", \"San Carlos\", \"Roxas City\", \"Lipa City\", \"Manila\", \"City of San Fernando\", \"Tacloban City\", \"Liloan\", \"Calapan\", \"City of Isabela\", \"City of Balanga\", \"Puerto Princesa City\", \"Pagadian City\", \"Tarlac City\", \"Butuan City\", \"Legazpi City\", \"Zamboanga City\", \"Cotabato City\", \"Valencia City\", \"Bacolod City\", \"Cagayan de Oro City\", \"General Santos City\", \"Tagum City\", \"Surigao City\", \"Tagbilaran City\", \"Marawi City\", \"Laoag City\", \"Zamboanga City\", \"Ormoc City\", \"Iloilo City\", \"Dagupan City\", \"Davao City\", \"Roxas City\", \"Koronadal City\", \"Tacloban City\", \"Butuan City\", \"Baguio City\", \"Cebu City\", \"Calapan\", \"Pagadian City\", \"Dipolog City\", \"Sorsogon City\", \"Roxas City\", \"San Fernando City\", \"Iloilo City\", \"Dumaguete City\", \"Digos City\", \"Calamba City\", \"Tagbilaran City\", \"Tagum City\", \"Sorsogon City\", \"Tacloban City\", \"Butuan City\", \"Baybay City\", \"Dipolog City\", \"Pagadian City\", \"Zamboanga City\", \"San Jose City\", \"Zamboanga City\", \"Puerto Princesa City\", \"Zamboanga City\", \"Sorsogon City\", \"Cagayan de Oro City\", \"Iloilo City\", \"Digos City\", \"Dumaguete City\", \"Zamboanga City\", \"Sorsogon City\", \"Bayugan City\", \"Tagum City\", \"Butuan City\", \"Koronadal City\", \"Tacloban City\", \"Iloilo City\", \"Cebu City\", \"Tacloban City\", \"Iloilo City\", \"Dumaguete City\", \"San Fernando City\", \"Tagbilaran City\", \"Tacloban City\", \"Ormoc City\", \"Cagayan de Oro City\", \"Iloilo City\", \"Iloilo City\", \"Pagadian City\", \"Sorsogon City\", \"Iloilo City\", \"Bayugan City\", \"Butuan City\", \"Dipolog City\", \"Sorsogon City\", \"Ormoc City\", \"Bayugan City\", \"Tacloban City\", \"Tacloban City\", \"Bayugan City\", \"Dumaguete City\", \"Cebu City\", \"Digos City\", \"Tagbilaran City\", \"Iloilo City\",\n</KNOWLEDGE BASE>\n\nThe above is your knowledge base. The information you have above are the name of the cities. Pick from the above list of cities which sounds similar to user response. If User response is not in Knowledge base pick the user response.",
+                "prompt": "Ask the user where they reside, acknowledging the job location {{job_location}}. \n\nYou may have previously asked the user the location where they worked at. This is a separate question, asking the user where they live. Do not get confused.\n\nDialogue Example: \"Ok, thank you. This position is an on-site position located at {{job_location}}. To understand the commute, can you share which city you reside in?\"\n\n<KNOWLEDGE BASE> City Names: \"Alaminos\", ..., \"Iloilo City\",\n</KNOWLEDGE BASE>\n\nThe above is your knowledge base. The information you have above are the name of the cities. Pick from the above list of cities which sounds similar to user response. If User response is not in Knowledge base pick the user response.",
                 "condition": "The condition is achieved once you have gotten where user reside.\nThe condition is achieved if either the user does not want to share the information or the user is unable to give the answer.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -143,7 +143,7 @@
             "data": {
                 "tag": null,
                 "name": "Candidate Distance From Job location",
-                "prompt": "Ask the user how far a drive this would be for them. \n\nInstructions: \nif candidate asks for exact location then provide this location {{job_order_address}}\n\nDialogue Example: \"How far a drive would this be for you?\"",
+                "prompt": "Ask the user how far a drive this would be for them from their residence to the job location. \n\nInstructions: \nif candidate asks for exact location then provide this location {{job_order_address}}\n\nDialogue Example: \"Okay, residing in [Extracted_City_Name or User's Stated City]. And how far a drive would the office at {{job_location}} be for you?\"",
                 "condition": "The condition is achieved if the user provides how far a drive this would be for them.\nThe condition is achieved if either the user does not want to share the information or the user is unable to give the answer.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -201,7 +201,7 @@
             "id": "d88c6810-067d-4103-bf8b-fee1cb77cd81",
             "data": {
                 "name": "Mode Of Transportation",
-                "prompt": "Ask the user which mode of transportation they would use commute to our office daily and don't confirm the user response just capture it and move ahead.\n\nDialogue Example: \"Ok, how about transportation to and from work. Can you share with me the mode of transportation you would use to commute to our office daily?\"\n\nGeneral Instructions:\nYou may hear a word that is transcribed incorrectly, or is not a form of transportation at all. In this case, try to match that word to a mode of transportation is sounds most similar to:\nfor example:\nstar -> car\ncard-> car\nbain-> train\nbox -> bus\n\nFor example, if you heard \"box\", you would respond with \"I think I may have heard you incorrectly. Did you mean that you will be taking the bus?\"",
+                "prompt": "Ask the user which mode of transportation they would use commute to our office daily and don't confirm the user response just capture it and move ahead.\n\nDialogue Example: \"Got it. And what mode of transportation would you typically use to commute to our office daily?\"\n\nGeneral Instructions:\nYou may hear a word that is transcribed incorrectly, or is not a form of transportation at all. In this case, try to match that word to a mode of transportation is sounds most similar to:\nfor example:\nstar -> car\ncard-> car\nbain-> train\nbox -> bus\n\nFor example, if you heard \"box\", you would respond with \"I think I may have heard you incorrectly. Did you mean that you will be taking the bus?\"",
                 "condition": "The condition is achieved once you have gotten the mode of transport user will use.\nThe condition is achieved if either the user does not want to share the information or the user is unable to give the answer.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -224,6 +224,20 @@
                     "skipUserResponse": false,
                     "block_interruptions": false,
                     "disableSilenceRepeat": false
+                }
+            },
+            "type": "Default"
+        },
+        {
+             "id": "ack_node_1",
+             "data": {
+                "name": "Acknowledge Basic Qualifiers",
+                "text": "Okay, thanks for confirming those details.",
+                "modelOptions": {
+                    "modelType": "smart",
+                    "temperature": 0,
+                    "skipUserResponse": true,
+                    "block_interruptions": true
                 }
             },
             "type": "Default"
@@ -257,6 +271,20 @@
             },
             "type": "Default"
         },
+         {
+             "id": "ack_node_2",
+             "data": {
+                "name": "Acknowledge Schedule Preferences",
+                "text": "Thank you for sharing your availability regarding the schedule.",
+                "modelOptions": {
+                    "modelType": "smart",
+                    "temperature": 0,
+                    "skipUserResponse": true,
+                    "block_interruptions": true
+                }
+            },
+            "type": "Default"
+        },
         {
             "id": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
             "data": {
@@ -277,7 +305,7 @@
             "id": "23d5ecb6-4a22-4668-b9f5-97f66603675e",
             "data": {
                 "name": "Motivation for job",
-                "prompt": "Ask the user what attracted them to the position and Teleperformance when they read our job advertisement.\n\nDialogue Example: \"Thank you for your transparency on your work schedule preferences. I'd like to ask you some questions about your career goals and motivations. When you read our job advertisement, what attracted you to the position and Teleperformance?\"",
+                "prompt": "Ask the user what attracted them to the position and Teleperformance when they read our job advertisement.\n\nDialogue Example: \"Now, I'd like to ask you some questions about your career goals and motivations. When you read our job advertisement, what attracted you to the position and Teleperformance?\"",
                 "condition": "The condition is achieved once you have gotten the details about why user was attracted to the position and Teleperformance.\nThe condition is achieved if either the user does not want to share the information or the user is unable to give the answer.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -490,7 +518,7 @@
             "id": "18e11dbf-d262-43af-9de8-018edf4c14f4",
             "data": {
                 "name": "post undergraduate degree details",
-                "prompt": "Ask the user if they plan to return to school to complete a post-undergraduate degree.\n\nDialogue Example: \"If you are a college grad, do you plan to return to school to complete a post undergraduate degree?\"",
+                "prompt": "Ask the user if they plan to return to school to complete a post-undergraduate degree.\n\nDialogue Example: \"Okay, you mentioned [Highest Education Level - e.g., completing 2 years associate]. Do you plan to return to school for any further studies or degrees?\"",
                 "condition": "The condition is achieved once you have gotten the confirmation whether the user is planning to return to school to complete a post-undergraduate degree or not.\nThe condition is achieved if either the user does not want to share the information or the user is unable to give the answer.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -512,6 +540,20 @@
                     "temperature": 0,
                     "skipUserResponse": false,
                     "block_interruptions": false
+                }
+            },
+            "type": "Default"
+        },
+         {
+             "id": "ack_node_3",
+             "data": {
+                "name": "Acknowledge Education",
+                "text": "Okay, thank you for sharing that about your education.",
+                "modelOptions": {
+                    "modelType": "smart",
+                    "temperature": 0,
+                    "skipUserResponse": true,
+                    "block_interruptions": true
                 }
             },
             "type": "Default"
@@ -760,7 +802,7 @@
         {
             "id": "b44f2440-1608-4da3-a518-a3e0f6cb799c",
             "data": {
-                "name": "Acknowledge",
+                "name": "Acknowledge Motivation",
                 "text": "Thank you for your answers, I appreciate the insight.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -820,7 +862,7 @@
         {
             "id": "86c605a2-e6f6-4692-84f2-608f0a042c7a",
             "data": {
-                "name": "Acknowledge",
+                "name": "Acknowledge Compensation",
                 "text": "Thank you again for the information you've shared. I have a few more questions to go over, so let's continue.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -1862,7 +1904,7 @@
             "id": "c6ef2556-29b6-4597-8fa9-2f26a40f8844",
             "data": {
                 "name": "Confirm the number on which called",
-                "prompt": "Confirm Contact Number with Spoken Digits Conversion\n\nInstruction: \nWhen confirming the contact number, convert spoken digits into phrases. For example, if the user says \"double seven,\" repeat this as \"seven seven\". If the user says \"zero\" or \"oh\", convert it to \"zero\".\n\nDialogue Example:\nAgent: Just to confirm, your number is {{short_to}}. Is that correct?\nUser: No, it's 0771111111.\nAgent: I apologize for the mistake. Just to confirm, your number is seven seven one one one one one one one. Is that correct?\n\n\ngenerate the reposne and use {{short_to}} variable to fill in the correct contact number.",
+                "prompt": "Confirm Contact Number with Spoken Digits Conversion\n\nInstruction: \nWhen confirming the contact number, convert spoken digits into phrases. For example, if the user says \"double seven,\" repeat this as \"seven seven\". If the user says \"zero\" or \"oh\", convert it to \"zero\".\n\nDialogue Example:\nAgent: Just to confirm, your number is {{short_to}}. Is that correct?\nUser: No, it's 0771111111.\nAgent: I apologize for the mistake. Just to confirm, your number is zero seven seven one one one one one one one. Is that correct?\n\n\ngenerate the response and use {{short_to}} variable to fill in the correct contact number.",
                 "condition": "The condition is achieved if the user says the number is correct.\nThe condition is achieved if the user says yes.\nThe condition is achieved if the user does not want to share the details.\nThe condition is not achieved if the user says no.",
                 "modelOptions": {
                     "modelType": "smart",
@@ -1905,6 +1947,19 @@
             "description": "Choose this pathway if the\n--user age criteria not matched.\n--User age is less than eighteen years.\n--User provides an age that is less than 18.",
             "source": "3393598a-4242-4373-80e2-988f0b6dad7a",
             "target": "bf67cea2-21b0-482f-9acb-2485bb9d2998"
+        },
+        {
+            "id": "reactflow__edge-3393598a-4242-4373-80e2-988f0b6dad7a-ack_node_1",
+            "label": "user age greater than 18",
+            "description": "Choose this pathway if the\n--User confirms that they are above 18 years of age.\n--User provides an age that is greater than 18.",
+            "source": "3393598a-4242-4373-80e2-988f0b6dad7a",
+            "target": "ack_node_1"
+        },
+        {
+             "id": "reactflow__edge-ack_node_1-0269bf18-51b7-47af-8f2b-a280dca047e5",
+             "label": "Continue to Schedule",
+             "source": "ack_node_1",
+             "target": "0269bf18-51b7-47af-8f2b-a280dca047e5"
         },
         {
             "id": "reactflow__edge-f39a22a7-b648-4dbf-8557-7025dce9f95f-5360d5e7-d49b-498d-9440-326f186150e8",
@@ -1988,6 +2043,13 @@
             "target": "24ae8666-9508-4656-87ac-4367b272b715"
         },
         {
+             "id": "reactflow__edge-e901ade8-0dc7-4a01-b5aa-20066ffe47dd-d88c6810-067d-4103-bf8b-fee1cb77cd81",
+             "label": "user ready for onsite jobs",
+             "description": "Choose this pathway If the\n--User prefer onsite jobs.\n--User is ready to work on onsite jobs.\n--User says yes.",
+             "source": "e901ade8-0dc7-4a01-b5aa-20066ffe47dd",
+             "target": "d88c6810-067d-4103-bf8b-fee1cb77cd81"
+        },
+        {
             "id": "reactflow__edge-5360d5e7-d49b-498d-9440-326f186150e8-151191d9-e7f2-4c99-af95-340d178a08fa",
             "label": "User shared the details whether user has prior commitments or not",
             "description": "Choose this pathway if the\n--user provides details about any prior commitments or activities that might affect their attendance.\n--User says no.\n--User does not want to share this details.\n--User is not willing to share the details.",
@@ -1996,8 +2058,8 @@
         },
         {
             "id": "reactflow__edge-151191d9-e7f2-4c99-af95-340d178a08fa-18e11dbf-d262-43af-9de8-018edf4c14f4",
-            "label": "user has completed bachelors degree",
-            "description": "Choose this pathway if the\n--User has completed college.\n--User has completed bachelor's degree.\n--User has not completed master's or Post graduate degree.\n--User has completed tertiary.",
+            "label": "user has completed bachelors degree/associate/tertiary",
+            "description": "Choose this pathway if the\n--User has completed college or equivalent (Associate, Tertiary).\n--User has completed bachelor's degree.\n--User has not completed master's or Post graduate degree.",
             "source": "151191d9-e7f2-4c99-af95-340d178a08fa",
             "target": "18e11dbf-d262-43af-9de8-018edf4c14f4"
         },
@@ -2030,13 +2092,6 @@
             "target": "0b806bb8-2cfc-4b16-a0f4-6d4b5085fc04"
         },
         {
-            "id": "reactflow__edge-e901ade8-0dc7-4a01-b5aa-20066ffe47dd-132236e6-7253-4c07-a7d6-52ddadf2d332",
-            "label": "user ready for onsite jobs",
-            "description": "Choose this pathway If the\n--User prefer onsite jobs.\n--User is ready to work on onsite jobs.",
-            "source": "e901ade8-0dc7-4a01-b5aa-20066ffe47dd",
-            "target": "132236e6-7253-4c07-a7d6-52ddadf2d332"
-        },
-        {
             "id": "reactflow__edge-1-7b2a80a9-0a3d-445e-bf6f-6d2c31ca7f8d",
             "label": "user did not apply for this job",
             "description": "choose this pathway if the\n--user didn't apply for this job.\n--user doesn't want to continue with the interview.",
@@ -2051,19 +2106,32 @@
             "target": "ec21b10e-e1d8-4cf1-b516-b5bd4127e022"
         },
         {
-            "id": "reactflow__edge-3393598a-4242-4373-80e2-988f0b6dad7a-0269bf18-51b7-47af-8f2b-a280dca047e5",
-            "label": "user age greater than 18",
-            "description": "Choose this pathway if the\n--User confirms that they are above 18 years of age.\n--User provides an age that is greater than 18.",
-            "source": "3393598a-4242-4373-80e2-988f0b6dad7a",
-            "target": "0269bf18-51b7-47af-8f2b-a280dca047e5"
-        },
-        {
             "id": "reactflow__edge-0269bf18-51b7-47af-8f2b-a280dca047e5-ee25c62b-3d64-42a4-ac4c-0099b9f9df27",
             "label": "user not worked on similar schedule",
             "description": "Choose this pathway if the\n--User did not work on a similar schedule.\n--User has not worked on holiday or weekends.",
             "source": "0269bf18-51b7-47af-8f2b-a280dca047e5",
             "target": "ee25c62b-3d64-42a4-ac4c-0099b9f9df27"
         },
+        {
+             "id": "reactflow__edge-0890699a-2037-46fd-9d2b-2c5a217e2f87-ack_node_2",
+             "label": "user can accommodate extended hours when needed",
+             "description": "Choose this pathway if the\n--User can accommodate extended hours when needed.\n--User want to work extra hours.\n--User doesn't want to share the details whether they can accommodate extended hours when needed or not.",
+             "source": "0890699a-2037-46fd-9d2b-2c5a217e2f87",
+             "target": "ack_node_2"
+        },
+        {
+             "id": "reactflow__edge-49c8bcd0-466e-4452-bafe-e1603adab65a-ack_node_2",
+             "label": "user given response for extra hours",
+             "description": "Choose this pathway if the\n--User can accommodate extended hours when needed.\n--User want to work extra hours.\n--User doesn't want to share the details whether they can accommodate extended hours when needed or not.",
+             "source": "49c8bcd0-466e-4452-bafe-e1603adab65a",
+             "target": "ack_node_2"
+         },
+         {
+             "id": "reactflow__edge-ack_node_2-23d5ecb6-4a22-4668-b9f5-97f66603675e",
+             "label": "Continue to Motivation",
+             "source": "ack_node_2",
+             "target": "23d5ecb6-4a22-4668-b9f5-97f66603675e"
+         },
         {
             "id": "reactflow__edge-23d5ecb6-4a22-4668-b9f5-97f66603675e-5b990cf5-28c0-4465-af4f-f02035fd0e1d",
             "label": "user given the response and provided the motivation for applying this job",
@@ -2098,19 +2166,26 @@
             "source": "98d7aac0-d98a-4e41-851b-dc076088191b",
             "target": "5360d5e7-d49b-498d-9440-326f186150e8"
         },
-        {
-            "id": "reactflow__edge-899da51d-f7fd-4b8d-8aa0-58d6c642e887-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
+         {
+            "id": "reactflow__edge-899da51d-f7fd-4b8d-8aa0-58d6c642e887-ack_node_3",
             "label": "user given the reason why didn't completed their High school or College",
             "description": "Choose this pathway if the\n--user provides the reason why didn't completed their High school or College.\n--user does not want to share this detail.\n--User is not willing to share the details.",
             "source": "899da51d-f7fd-4b8d-8aa0-58d6c642e887",
-            "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
+            "target": "ack_node_3"
         },
         {
-            "id": "reactflow__edge-18e11dbf-d262-43af-9de8-018edf4c14f4-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
+            "id": "reactflow__edge-18e11dbf-d262-43af-9de8-018edf4c14f4-ack_node_3",
             "label": "user plan to complete post undergraduate degree details",
             "description": "Choose this pathway if the\n--User is planning to complete the post undergraduate degree.\n--User said yes.\n--user does not want to share this detail.\n--User is not willing to share the details.",
             "source": "18e11dbf-d262-43af-9de8-018edf4c14f4",
-            "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
+            "target": "ack_node_3"
+        },
+         {
+            "id": "reactflow__edge-d26b01fe-9903-41e2-8e44-752a2656817c-ack_node_3",
+            "label": "User is planning to complete college degree",
+            "description": "Choose this pathway if the\n--User is planning to complete the college degree.\n--User said yes.\n--user does not want to share this detail.\n--User is not willing to share the details.",
+            "source": "d26b01fe-9903-41e2-8e44-752a2656817c",
+            "target": "ack_node_3"
         },
         {
             "id": "reactflow__edge-bff0055f-9954-4526-b90d-647f7e226993-dda433c4-24ca-4407-8d4d-5bf8945e3599",
@@ -2127,12 +2202,18 @@
             "target": "899da51d-f7fd-4b8d-8aa0-58d6c642e887"
         },
         {
-            "id": "reactflow__edge-151191d9-e7f2-4c99-af95-340d178a08fa-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
-            "label": "user given the highest level of qualification",
-            "description": "The condition is achieved if the\n--User has provided the highest level of education like master's degree, postgraduate, post-undergraduate degree, and doctorate",
-            "source": "151191d9-e7f2-4c99-af95-340d178a08fa",
-            "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
+             "id": "reactflow__edge-151191d9-e7f2-4c99-af95-340d178a08fa-ack_node_3",
+             "label": "user given the highest level of qualification (Masters/PostGrad/Doctorate)",
+             "description": "The condition is achieved if the\n--User has provided the highest level of education like master's degree, postgraduate, post-undergraduate degree, and doctorate",
+             "source": "151191d9-e7f2-4c99-af95-340d178a08fa",
+             "target": "ack_node_3"
         },
+         {
+             "id": "reactflow__edge-ack_node_3-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
+             "label": "Continue to Compensation",
+             "source": "ack_node_3",
+             "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
+         },
         {
             "id": "reactflow__edge-4debc0f9-eb24-4fe2-b451-daac324b1bfb-95dfafbd-3c47-4571-a3f0-6221c2c6ca16",
             "label": "user provided their salary expectation",
@@ -2175,11 +2256,18 @@
             "target": "49a609d8-feea-4022-8553-15789eaae76d"
         },
         {
-            "id": "reactflow__edge-49a609d8-feea-4022-8553-15789eaae76d-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
-            "label": "acknowledge",
-            "source": "49a609d8-feea-4022-8553-15789eaae76d",
-            "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
-        },
+             "id": "reactflow__edge-49a609d8-feea-4022-8553-15789eaae76d-ack_node_3",
+             "label": "acknowledge",
+             "source": "49a609d8-feea-4022-8553-15789eaae76d",
+             "target": "ack_node_3"
+         },
+        {
+             "id": "reactflow__edge-d26b01fe-9903-41e2-8e44-752a2656817c-49a609d8-feea-4022-8553-15789eaae76d",
+             "label": "User given negative response",
+             "description": "Choose this pathway if the\n--User are not planning to complete the college degree.\n--User said no.",
+             "source": "d26b01fe-9903-41e2-8e44-752a2656817c",
+             "target": "49a609d8-feea-4022-8553-15789eaae76d"
+         },
         {
             "id": "reactflow__edge-5b990cf5-28c0-4465-af4f-f02035fd0e1d-6f3b2b81-8f18-4045-b897-3788cd3753f0",
             "label": "user want to work less than 6 month",
@@ -2674,557 +2762,4 @@
             "label": "user has worked with similar schedule",
             "description": "Choose this pathway if the\n--User has worked on a similar kind of schedule.\n--User has worked on holiday or weekends.\n--user does not want to share the details.",
             "source": "0269bf18-51b7-47af-8f2b-a280dca047e5",
-            "target": "0890699a-2037-46fd-9d2b-2c5a217e2f87"
-        },
-        {
-            "id": "reactflow__edge-49c8bcd0-466e-4452-bafe-e1603adab65a-23d5ecb6-4a22-4668-b9f5-97f66603675e",
-            "label": "user given response for extra hours",
-            "description": "Choose this pathway if the\n--User can accommodate extended hours when needed.\n--User want to work extra hours.\n--User doesn't want to share the details whether they can accommodate extended hours when needed or not.",
-            "source": "49c8bcd0-466e-4452-bafe-e1603adab65a",
-            "target": "23d5ecb6-4a22-4668-b9f5-97f66603675e"
-        },
-        {
-            "id": "reactflow__edge-0890699a-2037-46fd-9d2b-2c5a217e2f87-23d5ecb6-4a22-4668-b9f5-97f66603675e",
-            "label": "user can accommodate extended hours when needed",
-            "description": "Choose this pathway if the\n--User can accommodate extended hours when needed.\n--User want to work extra hours.\n--User doesn't want to share the details whether they can accommodate extended hours when needed or not.",
-            "source": "0890699a-2037-46fd-9d2b-2c5a217e2f87",
-            "target": "23d5ecb6-4a22-4668-b9f5-97f66603675e"
-        },
-        {
-            "id": "reactflow__edge-579629c9-f0ab-40f8-99c0-778581ce7657-6f96a951-bdf3-49f0-85d9-ec822e467c99",
-            "label": "user provided viber account number",
-            "description": "Choose this pathway if the\n--User provides the Viber account number.\n--User says to use the number on which currently the call is happening.",
-            "source": "579629c9-f0ab-40f8-99c0-778581ce7657",
-            "target": "6f96a951-bdf3-49f0-85d9-ec822e467c99"
-        },
-        {
-            "id": "reactflow__edge-c3a4b11c-8227-4021-bbd0-6d28361a7a32-6f96a951-bdf3-49f0-85d9-ec822e467c99",
-            "label": "continue",
-            "source": "c3a4b11c-8227-4021-bbd0-6d28361a7a32",
-            "target": "6f96a951-bdf3-49f0-85d9-ec822e467c99"
-        },
-        {
-            "id": "reactflow__edge-662456ca-1751-4643-9aac-cdcf13e7d50b-d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "label": "No",
-            "description": "Choose this pathway if the\n--User has no questions.\n--User has asked their questions and has no further questions.\n--User says no.\n--User says no thankyou.",
-            "source": "662456ca-1751-4643-9aac-cdcf13e7d50b",
-            "target": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685"
-        },
-        {
-            "id": "reactflow__edge-151191d9-e7f2-4c99-af95-340d178a08fa-d26b01fe-9903-41e2-8e44-752a2656817c",
-            "label": "user has completed high school",
-            "description": "Choose this pathway if the\n--User has completed high school.",
-            "source": "151191d9-e7f2-4c99-af95-340d178a08fa",
-            "target": "d26b01fe-9903-41e2-8e44-752a2656817c"
-        },
-        {
-            "id": "reactflow__edge-d26b01fe-9903-41e2-8e44-752a2656817c-49a609d8-feea-4022-8553-15789eaae76d",
-            "label": "User given negative response",
-            "description": "Choose this pathway if the\n--User are not planning to complete the college degree.\n--User said no.",
-            "source": "d26b01fe-9903-41e2-8e44-752a2656817c",
-            "target": "49a609d8-feea-4022-8553-15789eaae76d"
-        },
-        {
-            "id": "reactflow__edge-d26b01fe-9903-41e2-8e44-752a2656817c-4debc0f9-eb24-4fe2-b451-daac324b1bfb",
-            "label": "User is planning to complete college degree",
-            "description": "Choose this pathway if the\n--User is planning to complete the college degree.\n--User said yes.\n--user does not want to share this detail.\n--User is not willing to share the details.",
-            "source": "d26b01fe-9903-41e2-8e44-752a2656817c",
-            "target": "4debc0f9-eb24-4fe2-b451-daac324b1bfb"
-        },
-        {
-            "id": "reactflow__edge-ed4a6b45-eb10-43b5-9b35-feffd3dc4ed0-26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "label": "user given response like they were solving technical or general issue",
-            "description": "Choose this pathway if the\n--User provides the details on the type of calls they were handling. Whether they were for solving technical issues, responding to general inquiries, or a mix of both.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "ed4a6b45-eb10-43b5-9b35-feffd3dc4ed0",
-            "target": "26c91821-08dd-439f-9b34-bed7a68c8d3d"
-        },
-        {
-            "id": "reactflow__edge-26c91821-08dd-439f-9b34-bed7a68c8d3d-bf34fc10-bca9-4543-a374-f495780e9769",
-            "label": "User has prior work experiance with other companies",
-            "description": "Choose this pathway if the\n--User has prior experience.\n--User said they have experience.\n--user said yes",
-            "source": "26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "target": "bf34fc10-bca9-4543-a374-f495780e9769"
-        },
-        {
-            "id": "reactflow__edge-26c91821-08dd-439f-9b34-bed7a68c8d3d-95085037-115c-4e97-b5d2-0025b632cdeb",
-            "label": "user did not have experience or don't want to share details",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User does not remember company name or does not want to share this detail.\n--User said they have no experience.\n--User is not willing to share the details.",
-            "source": "26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "target": "95085037-115c-4e97-b5d2-0025b632cdeb"
-        },
-        {
-            "id": "reactflow__edge-95dfafbd-3c47-4571-a3f0-6221c2c6ca16-55aa46c5-76ff-4ffa-9312-4acf287f507d",
-            "label": "user said to convert the salary into another currency",
-            "description": "Choose this pathway over the 'user agrees to provided salary range' pathway, if the user asks to convert the salary into another currency, even if they agreed to the salary range.",
-            "source": "95dfafbd-3c47-4571-a3f0-6221c2c6ca16",
-            "target": "55aa46c5-76ff-4ffa-9312-4acf287f507d"
-        },
-        {
-            "id": "reactflow__edge-55aa46c5-76ff-4ffa-9312-4acf287f507d-86c605a2-e6f6-4692-84f2-608f0a042c7a",
-            "label": "yes",
-            "description": "Choose this pathway if the\n--User agrees with the offered salary range for the position.\n--User says yes.\n--user does not want to share this detail.\n--User is not willing to share the details.",
-            "source": "55aa46c5-76ff-4ffa-9312-4acf287f507d",
-            "target": "86c605a2-e6f6-4692-84f2-608f0a042c7a"
-        },
-        {
-            "id": "reactflow__edge-55aa46c5-76ff-4ffa-9312-4acf287f507d-db8042a7-f03a-4a68-9b8c-7e7d3cb1d2dc",
-            "label": "User does not agree with provided salary range",
-            "description": "Choose this pathway if the\n--User is not okay with the offered salary range for the position.\n--User said no.\n--user give negative response.",
-            "source": "55aa46c5-76ff-4ffa-9312-4acf287f507d",
-            "target": "db8042a7-f03a-4a68-9b8c-7e7d3cb1d2dc"
-        },
-        {
-            "id": "reactflow__edge-662456ca-1751-4643-9aac-cdcf13e7d50b-4e7466eb-719f-42cd-b225-c9135acc03c8",
-            "label": "Yes",
-            "description": "choose this pathway if the\n--User has questions.\n--User has more questions.\n--User says yes.",
-            "source": "662456ca-1751-4643-9aac-cdcf13e7d50b",
-            "target": "4e7466eb-719f-42cd-b225-c9135acc03c8"
-        },
-        {
-            "id": "reactflow__edge-4e7466eb-719f-42cd-b225-c9135acc03c8-d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "label": "user has no more questions",
-            "description": "Choose this pathway if the\n--User has no questions.\n--User has asked their questions and has no further questions.\n--User said no.",
-            "source": "4e7466eb-719f-42cd-b225-c9135acc03c8",
-            "target": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685"
-        },
-        {
-            "id": "reactflow__edge-b39b0894-49fc-4582-9f5a-1b4e56b4737b-46cddb45-a072-4a2e-9c02-a1d9dcb17ed7",
-            "label": "User don't have relevant experience with this role",
-            "description": "Choose this pathway if the\n--User doesn't have experience related to job.\n--User has not managed any calls.\n--User doesn't want to share the details.",
-            "source": "b39b0894-49fc-4582-9f5a-1b4e56b4737b",
-            "target": "46cddb45-a072-4a2e-9c02-a1d9dcb17ed7"
-        },
-        {
-            "id": "reactflow__edge-46cddb45-a072-4a2e-9c02-a1d9dcb17ed7-26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "label": "user response is optional",
-            "source": "46cddb45-a072-4a2e-9c02-a1d9dcb17ed7",
-            "target": "26c91821-08dd-439f-9b34-bed7a68c8d3d"
-        },
-        {
-            "id": "reactflow__edge-1aa9cc85-50f1-479b-ad08-b9aab6bca87c-bfd142c7-60c6-46a5-8ce8-c5fd27277a8b",
-            "label": "user did not work with Teleperformance in the past",
-            "description": "Choose this pathway if the - \n--user has not previously worked with Teleperformance.\n--user said no.\n--user does not want to share the details.",
-            "source": "1aa9cc85-50f1-479b-ad08-b9aab6bca87c",
-            "target": "bfd142c7-60c6-46a5-8ce8-c5fd27277a8b"
-        },
-        {
-            "id": "reactflow__edge-56db68f5-a557-47cd-a1dc-c17f66c468b8-bfd142c7-60c6-46a5-8ce8-c5fd27277a8b",
-            "label": "user provided location details",
-            "description": "Choose this pathway if the \n--User provides the location where they worked.\n--User provided the details.\n--User does not remember or does not want to share this detail.",
-            "source": "56db68f5-a557-47cd-a1dc-c17f66c468b8",
-            "target": "bfd142c7-60c6-46a5-8ce8-c5fd27277a8b"
-        },
-        {
-            "id": "reactflow__edge-448e53f3-accd-4ed8-b31a-efbb060ba08d-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "label": "Continue",
-            "source": "448e53f3-accd-4ed8-b31a-efbb060ba08d",
-            "target": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a"
-        },
-        {
-            "id": "reactflow__edge-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a-080d8026-7924-49d2-906e-622850305dd4",
-            "label": "user did not have experience or don't want to share details",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User does not remember company name or does not want to share this detail.\n--User said they have no experience.\n--User is not willing to share the details.",
-            "source": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "target": "080d8026-7924-49d2-906e-622850305dd4"
-        },
-        {
-            "id": "reactflow__edge-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a-47145113-d446-497b-92cf-1825bcaa0210",
-            "label": "User has prior work experiance with other companies",
-            "description": "Choose this pathway if the\n--User has prior experience.\n--User said they have experience.\n--user said yes",
-            "source": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "target": "47145113-d446-497b-92cf-1825bcaa0210"
-        },
-        {
-            "id": "reactflow__edge-926b29c4-9da2-49d9-bd48-3edd5ee7873a-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "label": "user provided where the company is located",
-            "description": "Choose this pathway if the\n--User provides the company location.\n--User doesn't want to share the location.\n--User is not willing to share the details.",
-            "source": "926b29c4-9da2-49d9-bd48-3edd5ee7873a",
-            "target": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a"
-        },
-        {
-            "id": "reactflow__edge-324767af-4639-43e5-9103-affe1d80a49b-959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "label": "Continue",
-            "source": "324767af-4639-43e5-9103-affe1d80a49b",
-            "target": "959c9d92-a03e-4f20-9dcb-61ad408d6371"
-        },
-        {
-            "id": "reactflow__edge-959c9d92-a03e-4f20-9dcb-61ad408d6371-080d8026-7924-49d2-906e-622850305dd4",
-            "label": "user has no prior experience with other companies or don't want to share details",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User does not remember company name or does not want to share this detail.\n--User said they have no experience.\n--User is not willing to share the details.",
-            "source": "959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "target": "080d8026-7924-49d2-906e-622850305dd4"
-        },
-        {
-            "id": "reactflow__edge-959c9d92-a03e-4f20-9dcb-61ad408d6371-8aa1b585-b9fd-4dd5-8341-9e636c4185d5",
-            "label": "User has prior work experiance with other companies",
-            "description": "Choose this pathway if the\n--User has prior experience.\n--User said they have experience.\n--user said yes",
-            "source": "959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "target": "8aa1b585-b9fd-4dd5-8341-9e636c4185d5"
-        },
-        {
-            "id": "reactflow__edge-59388c1e-cdf4-430c-b4d5-f3c63af56be1-959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "label": "user provided where the company is located",
-            "description": "Choose this pathway if the\n--User provides the company location.\n--User doesn't want to share the location.\n--User is not willing to share the details.",
-            "source": "59388c1e-cdf4-430c-b4d5-f3c63af56be1",
-            "target": "959c9d92-a03e-4f20-9dcb-61ad408d6371"
-        },
-        {
-            "id": "reactflow__edge-08055bc4-dbc2-4468-87f9-fd2041742ad3-08055bc4-dbc2-4468-87f9-fd2041742ad3",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "08055bc4-dbc2-4468-87f9-fd2041742ad3",
-            "target": "08055bc4-dbc2-4468-87f9-fd2041742ad3"
-        },
-        {
-            "id": "reactflow__edge-959c9d92-a03e-4f20-9dcb-61ad408d6371-959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "959c9d92-a03e-4f20-9dcb-61ad408d6371",
-            "target": "959c9d92-a03e-4f20-9dcb-61ad408d6371"
-        },
-        {
-            "id": "reactflow__edge-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a-9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a",
-            "target": "9f0d6d79-9d4c-4a8c-95a0-330100e96d9a"
-        },
-        {
-            "id": "reactflow__edge-26c91821-08dd-439f-9b34-bed7a68c8d3d-26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "label": "user said repeat the question",
-            "description": "Choose this pathway if the\n--User has prior experience.\n--User said they have experience.\n--user said yes",
-            "source": "26c91821-08dd-439f-9b34-bed7a68c8d3d",
-            "target": "26c91821-08dd-439f-9b34-bed7a68c8d3d"
-        },
-        {
-            "id": "reactflow__edge-2b7fd8e9-ff07-4bf8-9751-b83f6c4ed026-163d7cc9-e49d-4fb3-bc49-627a2a646472",
-            "label": "User can't talk now",
-            "description": "Choose this pathway if the\n--user don't want to talk now.\n--User says no.",
-            "source": "2b7fd8e9-ff07-4bf8-9751-b83f6c4ed026",
-            "target": "163d7cc9-e49d-4fb3-bc49-627a2a646472"
-        },
-        {
-            "id": "reactflow__edge-randomnode_1710288752186-randomnode_1710288752186",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "randomnode_1710288752186",
-            "target": "randomnode_1710288752186"
-        },
-        {
-            "id": "reactflow__edge-randomnode_1710288871721-b0a3af08-058b-4932-8aab-3143346456cb",
-            "label": "Yes",
-            "description": "choose this pathway if the\n--User has questions.\n--User has more questions.\n--User says yes.",
-            "source": "randomnode_1710288871721",
-            "target": "b0a3af08-058b-4932-8aab-3143346456cb"
-        },
-        {
-            "id": "reactflow__edge-b0a3af08-058b-4932-8aab-3143346456cb-30ca8f44-827e-4568-9644-8c13fcba7414",
-            "label": "No",
-            "description": "Choose this pathway if the\n--User has no questions.\n--User has asked their questions and has no further questions.\n--User says no.\n--User says no thankyou.",
-            "source": "b0a3af08-058b-4932-8aab-3143346456cb",
-            "target": "30ca8f44-827e-4568-9644-8c13fcba7414"
-        },
-        {
-            "id": "reactflow__edge-randomnode_1710288871721-30ca8f44-827e-4568-9644-8c13fcba7414",
-            "label": "No",
-            "description": "Choose this pathway if the\n--User has no questions.\n--User has asked their questions and has no further questions.\n--User says okay I'll do that.\n--User says no.\n--User says no thankyou.",
-            "source": "randomnode_1710288871721",
-            "target": "30ca8f44-827e-4568-9644-8c13fcba7414"
-        },
-        {
-            "id": "reactflow__edge-ebf34909-6433-4659-bf7d-e00db3c9cf75-ebf34909-6433-4659-bf7d-e00db3c9cf75",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "ebf34909-6433-4659-bf7d-e00db3c9cf75",
-            "target": "ebf34909-6433-4659-bf7d-e00db3c9cf75"
-        },
-        {
-            "id": "reactflow__edge-1-6a05fba2-ba4c-4088-9ea8-8f5eec030f88",
-            "label": "Voicemail Detected",
-            "description": "choose this pathway if voicemail detected",
-            "source": "1",
-            "target": "6a05fba2-ba4c-4088-9ea8-8f5eec030f88"
-        },
-        {
-            "id": "reactflow__edge-1-68882f62-8b55-40fa-bb39-6e509701aaa0",
-            "label": "Do not call",
-            "description": "Choose this pathway if the\n--user says do not call.\n--user says do not call me.",
-            "source": "1",
-            "target": "68882f62-8b55-40fa-bb39-6e509701aaa0"
-        },
-        {
-            "id": "reactflow__edge-1-5d4c140d-ce1b-48da-b656-5aa5042f665b",
-            "label": "user said wrong number",
-            "description": "choose this pathway if the\n--user said the wrong number.\n--user explicitly mentioned this is wrong number",
-            "source": "1",
-            "target": "5d4c140d-ce1b-48da-b656-5aa5042f665b"
-        },
-        {
-            "id": "reactflow__edge-bc77c777-c8b0-46f8-ae20-0b498de32601-84686797-323c-4ca3-9baf-ccd167b2c87c",
-            "label": "User wants to unsubscribe",
-            "description": "choose this pathway if the\n--user wants to unsubscribe.\n--user says yes.",
-            "source": "bc77c777-c8b0-46f8-ae20-0b498de32601",
-            "target": "84686797-323c-4ca3-9baf-ccd167b2c87c"
-        },
-        {
-            "id": "reactflow__edge-68882f62-8b55-40fa-bb39-6e509701aaa0-c721d9e3-5462-4ebb-9d56-8580aa7b4abf",
-            "label": "User response is optional",
-            "description": "",
-            "source": "68882f62-8b55-40fa-bb39-6e509701aaa0",
-            "target": "c721d9e3-5462-4ebb-9d56-8580aa7b4abf"
-        },
-        {
-            "id": "reactflow__edge-5d4c140d-ce1b-48da-b656-5aa5042f665b-0b116002-75b1-4f3e-bced-8d0bd50b254b",
-            "label": "User response is optional",
-            "description": "",
-            "source": "5d4c140d-ce1b-48da-b656-5aa5042f665b",
-            "target": "0b116002-75b1-4f3e-bced-8d0bd50b254b"
-        },
-        {
-            "id": "reactflow__edge-1-749d3901-18aa-4ddd-959a-09300caa092c",
-            "label": "User says hello",
-            "source": "1",
-            "target": "749d3901-18aa-4ddd-959a-09300caa092c"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-749d3901-18aa-4ddd-959a-09300caa092c",
-            "label": "User says hello",
-            "description": "if the user says hello or wants to repeat the introduction",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "749d3901-18aa-4ddd-959a-09300caa092c"
-        },
-        {
-            "id": "reactflow__edge-e273f173-0674-4846-8a5b-7cd498f52850-e273f173-0674-4846-8a5b-7cd498f52850",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "e273f173-0674-4846-8a5b-7cd498f52850",
-            "target": "e273f173-0674-4846-8a5b-7cd498f52850"
-        },
-        {
-            "id": "reactflow__edge-1-e273f173-0674-4846-8a5b-7cd498f52850",
-            "label": "not good time to talk",
-            "description": "Choose this pathway if the\n--User is busy.\n--User is not available to talk now.\n--User says no.",
-            "source": "1",
-            "target": "e273f173-0674-4846-8a5b-7cd498f52850"
-        },
-        {
-            "id": "reactflow__edge-e273f173-0674-4846-8a5b-7cd498f52850-randomnode_1710288871721",
-            "label": "Yes",
-            "description": "Choose this pathway if the\n--User says Yes.\n--user is busy.\n--user says correct.",
-            "source": "e273f173-0674-4846-8a5b-7cd498f52850",
-            "target": "randomnode_1710288871721"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-e273f173-0674-4846-8a5b-7cd498f52850",
-            "label": "not good time to talk",
-            "description": "Choose this pathway if the\n--User is busy.\n--User is not available to talk now.\n--User says no.",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "e273f173-0674-4846-8a5b-7cd498f52850"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-68882f62-8b55-40fa-bb39-6e509701aaa0",
-            "label": "Do not call",
-            "description": "Choose this pathway if the\n--user says do not call.\n--user says do not call me.",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "68882f62-8b55-40fa-bb39-6e509701aaa0"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-5d4c140d-ce1b-48da-b656-5aa5042f665b",
-            "label": "user said wrong number",
-            "description": "choose this pathway if the\n--user said the wrong number.\n--user explicitly mentioned this is wrong number",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "5d4c140d-ce1b-48da-b656-5aa5042f665b"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-e3fbc3fa-2b7d-4e46-9486-e63c8c11c0b2",
-            "label": "user is not interested",
-            "description": "choose this pathway if the\n--user is not interested in this job.",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "e3fbc3fa-2b7d-4e46-9486-e63c8c11c0b2"
-        },
-        {
-            "id": "reactflow__edge-1-randomnode_1710288752186",
-            "label": "good time to talk",
-            "description": "choose this path if the\n--user says they can talk now.\n--user says yes.",
-            "source": "1",
-            "target": "randomnode_1710288752186"
-        },
-        {
-            "id": "reactflow__edge-749d3901-18aa-4ddd-959a-09300caa092c-randomnode_1710288752186",
-            "label": "good time to talk",
-            "description": "choose this path if the\n--user says they can talk now.\n--user says yes.",
-            "source": "749d3901-18aa-4ddd-959a-09300caa092c",
-            "target": "randomnode_1710288752186"
-        },
-        {
-            "id": "reactflow__edge-e273f173-0674-4846-8a5b-7cd498f52850-randomnode_1710288752186",
-            "label": "No",
-            "description": "choose this path if the\n--user says they can talk now.\n--user wants to continue the interview.",
-            "source": "e273f173-0674-4846-8a5b-7cd498f52850",
-            "target": "randomnode_1710288752186"
-        },
-        {
-            "id": "reactflow__edge-randomnode_1710288752186-ebf34909-6433-4659-bf7d-e00db3c9cf75",
-            "label": "No",
-            "description": "Choose this pathway if the\n--user says no.\n--user does not agree with acknowledgment.",
-            "source": "randomnode_1710288752186",
-            "target": "ebf34909-6433-4659-bf7d-e00db3c9cf75"
-        },
-        {
-            "id": "reactflow__edge-randomnode_1710288752186-1aa9cc85-50f1-479b-ad08-b9aab6bca87c",
-            "label": "Yes",
-            "description": "Choose this pathway if the - \n--The user agrees with acknowledgment.\n--The user said yes.\n--user want to talk with AI recruiter.",
-            "source": "randomnode_1710288752186",
-            "target": "1aa9cc85-50f1-479b-ad08-b9aab6bca87c"
-        },
-        {
-            "id": "reactflow__edge-6f96a951-bdf3-49f0-85d9-ec822e467c99-662456ca-1751-4643-9aac-cdcf13e7d50b",
-            "label": "user provided their marital/civil status",
-            "description": "Choose this pathway if the\n--User provides their marital/civil status.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "6f96a951-bdf3-49f0-85d9-ec822e467c99",
-            "target": "662456ca-1751-4643-9aac-cdcf13e7d50b"
-        },
-        {
-            "id": "reactflow__edge-6f3b2b81-8f18-4045-b897-3788cd3753f0-e5e51db5-3a46-45e4-8bb0-e17fe159103a",
-            "label": "user given the details",
-            "description": "Choose this pathway if the\n--User provides the reason for considering such a short tenure with Teleperformance.\n--User does not want to share this detail.\n--User is not willing to share the details.",
-            "source": "6f3b2b81-8f18-4045-b897-3788cd3753f0",
-            "target": "e5e51db5-3a46-45e4-8bb0-e17fe159103a"
-        },
-        {
-            "id": "reactflow__edge-5b990cf5-28c0-4465-af4f-f02035fd0e1d-e5e51db5-3a46-45e4-8bb0-e17fe159103a",
-            "label": "user want to work more than 6 month",
-            "description": "Choose this pathway if the\n--User envisions working with Teleperformance for more than 6 months.\n--User will work for more than 6 months.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "5b990cf5-28c0-4465-af4f-f02035fd0e1d",
-            "target": "e5e51db5-3a46-45e4-8bb0-e17fe159103a"
-        },
-        {
-            "id": "reactflow__edge-a11df36c-0241-4259-bc32-80fdf24ad2e4-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "label": "user has no pending application with other companies",
-            "description": "Choose this pathway if the\n--User has no pending applications with other companies.\n--User said no.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "a11df36c-0241-4259-bc32-80fdf24ad2e4",
-            "target": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de"
-        },
-        {
-            "id": "reactflow__edge-0b806bb8-2cfc-4b16-a0f4-6d4b5085fc04-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "label": "user gave response in which stage of the interview they are currently or don't want to share the det",
-            "description": "Choose this pathway if the\n--User provides in which stage of interview they are currently in.\n--User doesn't know about this.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "0b806bb8-2cfc-4b16-a0f4-6d4b5085fc04",
-            "target": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de"
-        },
-        {
-            "id": "reactflow__edge-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de-579629c9-f0ab-40f8-99c0-778581ce7657",
-            "label": "user provided contact details",
-            "description": "Choose this pathway if the\n--User provides the contact number.",
-            "source": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "target": "579629c9-f0ab-40f8-99c0-778581ce7657"
-        },
-        {
-            "id": "reactflow__edge-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "target": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de"
-        },
-        {
-            "id": "reactflow__edge-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de-319167fc-aa5a-4fcc-824f-a6b3b2110416",
-            "label": "user don't want to share contact details",
-            "description": "Choose this pathway if the\n--User does not want to share the contact details.\n--User is not willing to share the details,",
-            "source": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "target": "319167fc-aa5a-4fcc-824f-a6b3b2110416"
-        },
-        {
-            "id": "reactflow__edge-319167fc-aa5a-4fcc-824f-a6b3b2110416-579629c9-f0ab-40f8-99c0-778581ce7657",
-            "label": "continue",
-            "source": "319167fc-aa5a-4fcc-824f-a6b3b2110416",
-            "target": "579629c9-f0ab-40f8-99c0-778581ce7657"
-        },
-        {
-            "id": "reactflow__edge-bf34fc10-bca9-4543-a374-f495780e9769-95085037-115c-4e97-b5d2-0025b632cdeb",
-            "label": "user did not have experience",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User said they have no experience.",
-            "source": "bf34fc10-bca9-4543-a374-f495780e9769",
-            "target": "95085037-115c-4e97-b5d2-0025b632cdeb"
-        },
-        {
-            "id": "reactflow__edge-47145113-d446-497b-92cf-1825bcaa0210-080d8026-7924-49d2-906e-622850305dd4",
-            "label": "user did not have experience",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User said they have no experience.",
-            "source": "47145113-d446-497b-92cf-1825bcaa0210",
-            "target": "080d8026-7924-49d2-906e-622850305dd4"
-        },
-        {
-            "id": "reactflow__edge-8aa1b585-b9fd-4dd5-8341-9e636c4185d5-080d8026-7924-49d2-906e-622850305dd4",
-            "label": "user did not have experience",
-            "description": "Choose this pathway if the\n--User has no prior experience.\n--User said they have no experience.",
-            "source": "8aa1b585-b9fd-4dd5-8341-9e636c4185d5",
-            "target": "080d8026-7924-49d2-906e-622850305dd4"
-        },
-        {
-            "id": "reactflow__edge-07dc75de-e9f0-4d3b-a816-abfd8b5ea1de-c6ef2556-29b6-4597-8fa9-2f26a40f8844",
-            "label": "User says use the same number on which they called",
-            "description": "Choose this pathway if the -\n--User says to use the number on which currently the call is happening.",
-            "source": "07dc75de-e9f0-4d3b-a816-abfd8b5ea1de",
-            "target": "c6ef2556-29b6-4597-8fa9-2f26a40f8844"
-        },
-        {
-            "id": "reactflow__edge-c6ef2556-29b6-4597-8fa9-2f26a40f8844-579629c9-f0ab-40f8-99c0-778581ce7657",
-            "label": "Yes",
-            "description": "Choose this pathway if the - \n--user says yes.\n--user says the number is correct.\n--user does not want to share the details.",
-            "source": "c6ef2556-29b6-4597-8fa9-2f26a40f8844",
-            "target": "579629c9-f0ab-40f8-99c0-778581ce7657"
-        },
-        {
-            "id": "reactflow__edge-c6ef2556-29b6-4597-8fa9-2f26a40f8844-c6ef2556-29b6-4597-8fa9-2f26a40f8844",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "c6ef2556-29b6-4597-8fa9-2f26a40f8844",
-            "target": "c6ef2556-29b6-4597-8fa9-2f26a40f8844"
-        },
-        {
-            "id": "reactflow__edge-d11d3a92-bdb8-4538-b911-0e2bc2a9b685-60e1032c-60ca-4f21-82fa-856d2c7a59b6",
-            "label": "No",
-            "description": "Choose this pathway if the -\n--user say No.",
-            "source": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "target": "60e1032c-60ca-4f21-82fa-856d2c7a59b6"
-        },
-        {
-            "id": "reactflow__edge-d11d3a92-bdb8-4538-b911-0e2bc2a9b685-b92d9a26-7c76-49dc-82a8-f70975a538d6",
-            "label": "Yes",
-            "description": "Choose this pathway if the -\n--user say Yes",
-            "source": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "target": "b92d9a26-7c76-49dc-82a8-f70975a538d6"
-        },
-        {
-            "id": "reactflow__edge-d11d3a92-bdb8-4538-b911-0e2bc2a9b685-d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "label": "user said repeat the question",
-            "description": "if user wants to repeat entire question or any part of the question",
-            "source": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685",
-            "target": "d11d3a92-bdb8-4538-b911-0e2bc2a9b685"
-        },
-        {
-            "id": "reactflow__edge-ebf34909-6433-4659-bf7d-e00db3c9cf75-38b0ed90-bffb-419b-9d09-6708eb07ea70",
-            "label": "Yes",
-            "description": "choose this pathway if the\n--user says yes.\n--user says correct.\n--user does not agree with acknowledgment.",
-            "source": "ebf34909-6433-4659-bf7d-e00db3c9cf75",
-            "target": "38b0ed90-bffb-419b-9d09-6708eb07ea70"
-        },
-        {
-            "id": "reactflow__edge-ebf34909-6433-4659-bf7d-e00db3c9cf75-1aa9cc85-50f1-479b-ad08-b9aab6bca87c",
-            "label": "No",
-            "description": "choose this pathway if the\n--user says no.\n--user agrees with acknowledgment.",
-            "source": "ebf34909-6433-4659-bf7d-e00db3c9cf75",
-            "target": "1aa9cc85-50f1-479b-ad08-b9aab6bca87c"
-        },
-        {
-            "id": "reactflow__edge-e5e51db5-3a46-45e4-8bb0-e17fe159103a-b44f2440-1608-4da3-a518-a3e0f6cb799c",
-            "label": "user provided what is important to them as they evaluate the job opportunities",
-            "description": "Choose this pathway if the\n--User provided details what is important to evaluate the job opportunities.\n--User doesn't want to share the details.\n--User is not willing to share the details.",
-            "source": "e5e51db5-3a46-45e4-8bb0-e17fe159103a",
-            "target": "b44f2440-1608-4da3-a518-a3e0f6cb799c"
-        }
-    ],
-    "published_at": "2025-02-28T05:13:34.804Z",
-    "folder_name": "Teleperformance PH",
-    "production_version_number": 2
-}
+            "target": "0890699a-2037-46fd-
